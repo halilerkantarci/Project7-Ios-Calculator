@@ -26,6 +26,24 @@ btnContainer.addEventListener("click", (e) => {
     calculate();
     updateDisplay();
   }
+  if (e.target.classList.contains("ac")) {
+    previousOperand = "";
+    currOperand = "";
+    operation = "";
+    updateDisplay();
+  }
+
+  if (e.target.classList.contains("pm")) {
+    if (!currOperand) return;
+    currOperand *= -1;
+    updateDisplay();
+  }
+
+  if (e.target.classList.contains("percent")) {
+    if (!currOperand) return;
+    currOperand /= 100;
+    updateDisplay();
+  }
 });
 
 const appendNumber = (num) => {
@@ -49,6 +67,9 @@ const appendNumber = (num) => {
 };
 
 const updateDisplay = () => {
+  if (currOperand.toString().length > 11) {
+    currOperand = Number(currOperand).toExponential(5);
+  }
   currDisp.textContent = currOperand;
   prevDisp.textContent = `${previousOperand} ${operation}`;
 };
@@ -85,6 +106,7 @@ const calculate = () => {
       calculation = prev / current;
       break;
     default:
+      // break yazsaydık alttaki kodlar çalışmaya devam ederdi,return olunca direkt fonksiyondan çıkar. böylece eşittire basınca toplam değeri çıkar (break varken sıfır çıkıyodu)
       return;
   }
 
