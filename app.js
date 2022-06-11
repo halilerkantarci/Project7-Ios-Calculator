@@ -9,6 +9,7 @@ const btnContainer = document.querySelector(".buttons-container");
 let currOperand = "";
 let previousOperand = "";
 let operation = "";
+let equalOrPercentPressed = false;
 
 //? Butonlari tasiyan container icin event tanimlamasi
 btnContainer.addEventListener("click", (e) => {
@@ -25,6 +26,7 @@ btnContainer.addEventListener("click", (e) => {
   if (e.target.classList.contains("equal")) {
     calculate();
     updateDisplay();
+    equalOrPercentPressed = true;
   }
   if (e.target.classList.contains("ac")) {
     previousOperand = "";
@@ -43,6 +45,7 @@ btnContainer.addEventListener("click", (e) => {
     if (!currOperand) return;
     currOperand /= 100;
     updateDisplay();
+    equalOrPercentPressed = true;
   }
 });
 
@@ -62,6 +65,12 @@ const appendNumber = (num) => {
   if (num === "." && currOperand.includes(".")) return;
 
   if (currOperand.length > 10) return;
+
+  if (equalOrPercentPressed) {
+    currOperand = num;
+    equalOrPercentPressed = false;
+    return;
+  }
   //? Girilen sayilari birlestir.
   currOperand += num;
 };
